@@ -1,4 +1,4 @@
-{-# LANGUAGE NoImplicitPrelude, UnicodeSyntax #-}
+{-# LANGUAGE NoImplicitPrelude, UnicodeSyntax, DeriveDataTypeable #-}
 
 module Data.Number.TF
     ( TF(N, NegInf, PosInf, NaN)
@@ -10,10 +10,13 @@ module Data.Number.TF
 
 -- from base:
 import Data.Bool     ( Bool(False, True) )
+import Data.Data     ( Data )
 import Data.Eq       ( Eq )
 import Data.Maybe    ( Maybe(Nothing, Just) )
 import Data.Ord      ( Ordering(LT, GT) )
+import Data.Typeable ( Typeable )
 import Prelude       ( Num, (+), (*), (-), negate, abs, signum, fromInteger )
+import Text.Read     ( Read )
 import Text.Show     ( Show )
 
 -- from base-unicode-symbols:
@@ -32,7 +35,8 @@ import Data.Number.Transfinite ( Transfinite
 --------------------------------------------------------------------------------
 
 -- | Extends an existing type with the concept of infinity.
-data TF α = N α | NegInf | PosInf | NaN deriving (Eq, Show)
+data TF α = N α | NegInf | PosInf | NaN
+            deriving (Eq, Read, Show, Data, Typeable)
 
 instance (Num α) ⇒ Num (TF α) where
     N x    + N y    = N (x + y)
