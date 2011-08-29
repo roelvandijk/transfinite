@@ -13,7 +13,9 @@ import Data.Bool     ( Bool(False, True) )
 import Data.Eq       ( Eq )
 import Data.Maybe    ( Maybe(Nothing, Just) )
 import Data.Ord      ( Ordering(LT, GT) )
-import Prelude       ( Num, (+), (*), (-), negate, abs, signum, fromInteger )
+import Prelude       ( Num, (+), (*), (-), negate, abs, signum, fromInteger
+                     , Bounded, minBound, maxBound
+                     )
 import Text.Show     ( Show )
 
 -- from base-unicode-symbols:
@@ -91,6 +93,10 @@ instance (Num α) ⇒ Num (TF α) where
     signum NaN    = N (negate 1)
 
     fromInteger = N ∘ fromInteger
+
+instance Bounded (TF α) where
+    minBound = NegInf
+    maxBound = PosInf
 
 instance (PartialOrd α) ⇒ PartialOrd (TF α) where
     cmp NegInf NegInf = Nothing
